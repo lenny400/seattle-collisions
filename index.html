@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Mapbox Seattle Collision Heatmap</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <!-- Load Mapbox GL JS -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
+    <!-- Load the Mapbox GL JS stylesheet -->
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 50%; }
+    </style>
+</head>
+<body>
+<div id='map'></div>
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoibm9haHNhbW9hIiwiYSI6ImNsb3Q3Z2lkaTA2aDQycnA4MmdqZ2J1cGYifQ.8NMJu7X2FcPeARpvIH0ItA';
+
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/dark-v10', // A dark style to contrast with the heatmap
+        center: [-122.3321, 47.6062],
+        zoom: 12
+    });
+
+    map.on('load', function () {
+        // Load your GeoJSON data
+        map.addSource('collisions', {
+            type: 'geojson',
+            data: 'assets/SDOT_Collisions_All_Years.geojson' // Your GeoJSON file location
+        });
+        
+        map.addLayer({
+            id: 'collisions-layer',
+            type: 'circle',
+            source: 'collisions',
+            paint: {
+                // This icon is a part of the Mapbox Streets style.
+                // To use a different image, add an image to the style or use an external URL.
+                'circle-radius': 6,
+                'circle-color': '#B42222'
+            }
+        });
+    });
+</script>
+</body>
+</html>

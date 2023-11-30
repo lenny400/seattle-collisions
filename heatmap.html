@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Mapbox Seattle Collision Heatmap</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <!-- Load Mapbox GL JS -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
+    <!-- Load the Mapbox GL JS stylesheet -->
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 50%; }
+    </style>
+</head>
+<body>
+<div id='map'></div>
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1Ijoibm9haHNhbW9hIiwiYSI6ImNsb3Q3Z2lkaTA2aDQycnA4MmdqZ2J1cGYifQ.8NMJu7X2FcPeARpvIH0ItA';
+
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/dark-v10', // A dark style to contrast with the heatmap
+        center: [-122.3321, 47.6062],
+        zoom: 12
+    });
+
+    map.on('load', function () {
+        // Load your GeoJSON data
+        map.addSource('collisions', {
+            type: 'geojson',
+            data: 'assets/SDOT_Collisions_All_Years.geojson' // Your GeoJSON file location
+        });
+        
+        // Add a heatmap layer
+        map.addLayer({
+            id: 'collisions-heatmap',
+            type: 'heatmap',
+            source: 'collisions',
+            maxzoom: 15,
+            paint: {
+                'heatmap-weight': [
+                    'interpolate',
+                    ['linear'],
+                    ['get', 'INJURIES'],
+                    0,
+                    0,
+                    1,
+                    1
+                ],
+                // Increase the heatmap color weight weight by zoom level
+                // heatmap-intensity is a multiplier on top of heatmap-weight
+                'heatmap-intensity': [
+                    'interpolate',
+                    ['linear'],
+                    ['zoom'],
+                    0,
+                    1,
+                    9,
+                    3
+                ],
+                // Color ramp for heatmap.  Domain is 0 (low) to 1 (high).
+                // Begin color ramp at 0-stop with a 0-transparancy color
+                // to create a blur-like effect.
+                'heatmap-color': [
+                'interpolate',
+                ['linear'],
+                ['heatmap-density'],
+                0,
+                'rgba(33,102,172,0)',
+                0.2,
+                'rgb(103,169,207)',
+                0.4,
+                'rgb(209,229,240)',
+                0.6,
+                'rgb(253,219,199)',
+                0.8,
+                'rgb(239,138,98)',
+                1,
+                'rgb(178,24,43)'
+                ],
+                // Adjust the heatmap radius by zoom level
+                'heatmap-radius': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                0,
+                2,
+                9,
+                20
+                ],
+                // Transition from heatmap to circle layer by zoom level
+                'heatmap-opacity': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                7,
+                1,
+                9,
+                0
+                ]
+            }
+        });
+    });
+</script>
+</body>
+</html>
