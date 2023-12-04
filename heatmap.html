@@ -9,12 +9,53 @@
     <!-- Load the Mapbox GL JS stylesheet -->
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
     <style>
-        body { margin: 0; padding: 0; }
-        #map { position: absolute; top: 0; bottom: 0; width: 50%; }
+        h2 {
+            margin: 10px;
+            font-size: 18px;
+        }
+
+        p {
+            margin: 10px;
+        }
+        
+        body { 
+            margin: 0; padding: 0; 
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .map-overlay {
+            top: 0;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.8);
+            border-style: solid;
+            border-width: 1px;
+            border-color: rgba(0, 0, 0, 0.2);
+            margin-left: 20px;
+            font-family: Arial, sans-serif;
+            overflow: auto;
+            border-radius: 3px;
+            height: 150px;
+            margin-top: 20px;
+            width: 250px;
+        }
     </style>
 </head>
 <body>
 <div id='map'></div>
+<div class='map-overlay' id='features'>
+    <h2>Seattle Collision Data Heat Map</h2>
+    <div id='text-description'>
+        <p>Explore collision data through this interactive heat map.</p>
+    </div>
+</div>
 <script>
     mapboxgl.accessToken = 'pk.eyJ1Ijoibm9haHNhbW9hIiwiYSI6ImNsb3Q3Z2lkaTA2aDQycnA4MmdqZ2J1cGYifQ.8NMJu7X2FcPeARpvIH0ItA';
 
