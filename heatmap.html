@@ -42,21 +42,26 @@
             font-family: Arial, sans-serif;
             overflow: auto;
             border-radius: 3px;
-            height: 150px;
+            height: 100%;
             margin-top: 20px;
-            width: 250px;
+            width: 25%;
         }
     </style>
 </head>
 <body>
 <div id='map'></div>
 <div class='map-overlay' id='features'>
-    <h2>Seattle Collision Data Heat Map</h2>
-    <div id='text-description'>
-        <p>Explore collision data through this interactive heat map.</p>
-    </div>
+    <div class='session' id='sliderbar'>
+        <h2><label>Choose Active Date Range</label></h2>
+        <input id='minSlider' class='row' type='range' min='0' max='21' step='1' value='0' />
+        <input id='maxSlider' class='row' type='range' min='0' max='21' step='1' value='21' />
+        <h3>Start Date<div id="minDate"></div></h3>
+        <h3>End Date<div id="maxDate"></div></h3>
+      </div>
 </div>
 <script>
+    const month_year = ["2022-03-01", "2022-04-01", "2022-05-01", "2022-06-01", "2022-07-01", "2022-08-01", "2022-09-01", "2022-10-01", "2022-11-01", "2022-12-01", "2023-01-01", "2023-02-01", "2023-03-01", "2023-04-01", "2023-05-01", "2023-06-01", "2023-07-01", "2023-08-01", "2023-09-01", "2023-10-01", "2023-11-01", "2023-12-01"];
+    const showDate = ["March 2022", "April 2022", "May 2022", "June 2022", "July 2022", "August 2022", "September 2022", "October 2022", "November 2022", "December 2022", "January 2023", "February 2023", "March 2023", "April 2023", "May 2023", "June 2023", "July 2023", "August 2023", "September 2023", "October 2023", "November 2023", "December 2023"]
     mapboxgl.accessToken = 'pk.eyJ1Ijoibm9haHNhbW9hIiwiYSI6ImNsb3Q3Z2lkaTA2aDQycnA4MmdqZ2J1cGYifQ.8NMJu7X2FcPeARpvIH0ItA';
 
     var map = new mapboxgl.Map({
@@ -93,6 +98,33 @@
                     
             }
         );
+
+        function updateDateRange() {
+            const sdate = parseInt(document.getElementById('minSlider').value);
+            const edate = parseInt(document.getElementById('maxSlider').value);
+            const startDate = month_year[sdate];
+            const endDate = month_year[edate];
+
+            // Update the map filter
+            map.setFilter('heatmap-layer', ['all',
+                ['>=', ['get', 'ADDDTTM'], startDate],
+                ['<=', ['get', 'ADDDTTM'], endDate]
+            ]);
+
+            // Update text in the UI
+            document.getElementById('minDate').innerText = showDate[sdate];
+            document.getElementById('maxDate').innerText = showDate[edate];
+        }
+
+        document.getElementById('minSlider').addEventListener('input', (event) => {
+            updateDateRange();
+        });
+
+        
+
+        document.getElementById('maxSlider').addEventListener('input', (event) => {
+            updateDateRange();
+        });
     });
 </script>
 </body>
