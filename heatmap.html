@@ -46,17 +46,51 @@
             margin-top: 20px;
             width: 25%;
         }
+
+        .session {
+            margin-bottom: 20px;
+        }
+
+        .row {
+            height: 12px;
+            width: 100%;
+        }
+
+        .colors {
+            background: linear-gradient(to right, #2dc4b2, #3bb3c3, #669ec4, #8b88b6, #a2719b, #aa5e79);
+            margin-bottom: 5px;
+        }
+
+        .label {
+            width: 15%;
+            display: inline-block;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 <div id='map'></div>
 <div class='map-overlay' id='features'>
     <div class='session' id='sliderbar'>
+        <h1>Seattle Collision Map</h1>
         <h2><label>Choose Active Date Range</label></h2>
         <input id='minSlider' class='row' type='range' min='0' max='21' step='1' value='0' />
         <input id='maxSlider' class='row' type='range' min='0' max='21' step='1' value='21' />
         <h3>Start Date<div id="minDate"></div></h3>
         <h3>End Date<div id="maxDate"></div></h3>
+      </div>
+      <div class='session'>
+        <h2>Injuries</h2>
+        <div class='row colors'>
+        </div>
+        <div class='row labels'>
+          <div class='label'>0</div>
+          <div class='label'>1</div>
+          <div class='label'>2</div>
+          <div class='label'>3</div>
+          <div class='label'>4</div>
+          <div class='label'>13</div>
+        </div>
       </div>
 </div>
 <script>
