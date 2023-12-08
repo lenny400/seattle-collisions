@@ -44,7 +44,7 @@
             border-radius: 3px;
             height: 100%;
             margin-top: 20px;
-            width: 25%;
+            width: 20%;
         }
 
         .session {
@@ -57,12 +57,12 @@
         }
 
         .colors {
-            background: linear-gradient(to right, #2dc4b2, #3bb3c3, #669ec4, #8b88b6, #a2719b, #aa5e79);
+            background: linear-gradient(to right, rgba(33, 102, 172, 0), blue, royalblue, cyan, lime, yellow, orange, darkorange, red);
             margin-bottom: 5px;
         }
 
         .label {
-            width: 15%;
+            width: 11%;
             display: inline-block;
             text-align: center;
         }
@@ -89,13 +89,15 @@
           <div class='label'>2</div>
           <div class='label'>3</div>
           <div class='label'>4</div>
+          <div class='label'>7</div>
+          <div class='label'>10</div>
           <div class='label'>13</div>
         </div>
       </div>
 </div>
 <script>
     const month_year = ["2022-03-01", "2022-04-01", "2022-05-01", "2022-06-01", "2022-07-01", "2022-08-01", "2022-09-01", "2022-10-01", "2022-11-01", "2022-12-01", "2023-01-01", "2023-02-01", "2023-03-01", "2023-04-01", "2023-05-01", "2023-06-01", "2023-07-01", "2023-08-01", "2023-09-01", "2023-10-01", "2023-11-01", "2023-12-01"];
-    const showDate = ["March 2022", "April 2022", "May 2022", "June 2022", "July 2022", "August 2022", "September 2022", "October 2022", "November 2022", "December 2022", "January 2023", "February 2023", "March 2023", "April 2023", "May 2023", "June 2023", "July 2023", "August 2023", "September 2023", "October 2023", "November 2023", "December 2023"]
+    const showDate = ["March 2022", "April 2022", "May 2022",   "June 2022", "July 2022", "August 2022", "September 2022", "October 2022", "November 2022", "December 2022", "January 2023", "February 2023", "March 2023", "April 2023", "May 2023", "June 2023", "July 2023", "August 2023", "September 2023", "October 2023", "November 2023", "December 2023"]
     mapboxgl.accessToken = 'pk.eyJ1Ijoibm9haHNhbW9hIiwiYSI6ImNsb3Q3Z2lkaTA2aDQycnA4MmdqZ2J1cGYifQ.8NMJu7X2FcPeARpvIH0ItA';
 
     var map = new mapboxgl.Map({
@@ -122,12 +124,32 @@
                 paint: {
                     'heatmap-weight': {
                         property: 'INJURIES',
-                        type: 'exponential',
+                        type: 'interval',
                         stops: [
-                            [0, .1],
-                            [13, 1]
+                            [0, .1],   // No injuries, weight 0
+                            [1, 0.2], // 1 injury, weight 0.2
+                            [2, 0.3], // 2 injuries, weight 0.4
+                            [3, 0.5], // 3 injuries, weight 0.6
+                            [4, 0.7],
+                            [7, 0.8],
+                            [10, 0.9], // 4 injuries, weight 0.8
+                            [13, 1]   // 13 injuries, weight 1
                         ]
-                    }
+                    },
+                    'heatmap-color': [
+                        'interpolate',
+                        ['linear'],
+                        ['heatmap-density'],
+                        0, 'rgba(33, 102, 172, 0)',  // Color for intensity 0
+                        0.1, 'blue',                 // Color for intensity 0.1
+                        0.2, 'royalblue',            // Color for intensity 0.2
+                        0.3, 'cyan',                 // Color for intensity 0.3
+                        0.5, 'lime',                 // Color for intensity 0.5
+                        0.7, 'yellow',               // Color for intensity 0.7
+                        0.8, 'orange',               // Color for intensity 0.8
+                        0.9, 'darkorange',                  // Color for intensity 0.9
+                        1, 'red'                   // Color for 1 intensity
+                    ]
                 }
                     
             }
