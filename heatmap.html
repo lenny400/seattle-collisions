@@ -53,7 +53,7 @@
 
         .row {
             height: 12px;
-            width: 100%;
+            width: 90%;
         }
 
         .colors {
@@ -76,8 +76,8 @@
         <h2><label>Choose Active Date Range</label></h2>
         <input id='minSlider' class='row' type='range' min='0' max='21' step='1' value='0' />
         <input id='maxSlider' class='row' type='range' min='0' max='21' step='1' value='21' />
-        <h3>Start Date<div id="minDate"></div></h3>
-        <h3>End Date<div id="maxDate"></div></h3>
+        <h3>Start Date<div id="minDate">March 2022</div></h3>
+        <h3>End Date<div id="maxDate">December 2022</div></h3>
       </div>
       <div class='session'>
         <h2>Injuries</h2>
@@ -155,6 +155,50 @@
             }
         );
 
+        map.addLayer(
+            {
+                id: 'collisions-point',
+                type: 'circle',
+                source: 'collisions',
+                minzoom: 14,
+                paint: {
+                // increase the radius of the circle as the zoom level and dbh value increases
+                'circle-radius': {
+                    property: 'INJURIES',
+                    type: 'exponential',
+                    stops: [
+                    [{ zoom: 15, value: 0 }, 5],
+                    [{ zoom: 15, value: 3 }, 10],
+                    [{ zoom: 22, value: 0 }, 20],
+                    [{ zoom: 22, value: 3 }, 50]
+                    ]
+                },
+                'circle-color': {
+                    property: 'INJURIES',
+                    type: 'interval',
+                    stops: [
+                            [0, 'rgba(33, 102, 172, 0)'],   // No injuries, weight 0
+                            [1, 'blue'], // 1 injury, weight 0.2
+                            [2, 'royalblue'], // 2 injuries, weight 0.4
+                            [3, 'cyan'], // 3 injuries, weight 0.6
+                            [4, 'lime'],
+                            [7, 'yellow'],
+                            [10, 'orange'], // 4 injuries, weight 0.8
+                            [13, 'darkorange']   // 13 injuries, weight 1
+                        ]
+                },
+                'circle-stroke-color': 'white',
+                'circle-stroke-width': 1,
+                'circle-opacity': {
+                    stops: [
+                    [14, 0],
+                    [15, 1]
+                    ]
+                }
+                }
+            },
+            );
+
         function updateDateRange() {
             const sdate = parseInt(document.getElementById('minSlider').value);
             const edate = parseInt(document.getElementById('maxSlider').value);
@@ -165,6 +209,11 @@
             map.setFilter('heatmap-layer', ['all',
                 ['>=', ['get', 'ADDDTTM'], startDate],
                 ['<=', ['get', 'ADDDTTM'], endDate]
+            ]);
+
+            map.setFilter('collisions-point', ['all',
+                ['>=', ['get', 'ADDDTTM'], startDate],
+                ['<=', ['get', 'ADDDTTM'], endDate] 
             ]);
 
             // Update text in the UI
@@ -181,6 +230,17 @@
         document.getElementById('maxSlider').addEventListener('input', (event) => {
             updateDateRange();
         });
+
+        map.on('click', 'collisions-point', (event) => {
+            new mapboxgl.Popup()
+                .setLngLat(event.features[0].geometry.coordinates)
+                .setHTML(`<strong>INJURIES:</strong> ${event.features[0].properties.INJURIES}<br>
+                <strong>SERIOUS INJURIES:</strong> ${event.features[0].properties.SERIOUSINJURIES}<br>
+                <strong>COLLISION TYPE:</strong> ${event.features[0].properties.COLLISIONTYPE}<br>
+                <strong>STREET:</strong> ${event.features[0].properties.LOCATION}<br>
+                `)
+                .addTo(map);
+            });
     });
 </script>
 </body>
