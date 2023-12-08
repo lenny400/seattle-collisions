@@ -4,15 +4,15 @@ Map Application Link: [Insert Link Here]
 
 Navigating the intricate web of Seattle's streets involves a delicate balance of vehicles, pedestrians, and infrastructure. Prioritizing safety in this dynamic environment requires a comprehensive understanding of car collision patterns. To address this need, we present an interactive map showcasing vehicle collisions across the greater Seattle area. The map features a thematic heat map illustrating the frequency of these collisions and offers information on the number of injuries resulting from each collision.  
 
-![Basic Picture of our Map](img\Map-Overview-2.png)
+![Basic Picture of our Map](https://github.com/noah-rarick/seattle-collisions/blob/main/img/Map-Overview-2.png)
 
 Users can utilize a slider to explore collision data within specified date ranges, offering insights into the patterns throughout the year. This slider allows a selective range between March of 2022 and December of 2023. Adjusting the slider on the left side of the map will reveal collisions that occurred between the 2 specified date ranges, with the start date being on top and the end date on the bottom.
 
-![Basic Picture of our Map with a refined range](img\Map-Overview.png)
+![Basic Picture of our Map with a refined range](https://github.com/noah-rarick/seattle-collisions/blob/main/img/Map-Overview.png)
 
 Changing the ranges of the map allows us to reveal the trends in traffic collisions during the different months of the year. Filtering these data points allows us also to focus on the individual points to reveal more information as well. Since our map is interactive, the user can zoom to achieve a detailed inspection of each individual incident.
 
-![Image that shows the clicking feature](\img\click-feature.png)
+![Image that shows the clicking feature](https://github.com/noah-rarick/seattle-collisions/blob/main/img/click-feature.png)
 
 As another feature of interactivity, clicking these points reveals access to more information about each incident. This additional information includes details about the number of injuries, collision type, and the name of the street which the collision took place. These individual incident dots also provide information based on their color, categorizing them based on the number of injuries that occurred in the incident. The values of these colors are shown in the legend that appears on the left side of the map. This allows for quick analysis of the points, revealing which areas are more prone to injury when compared with others.
 
