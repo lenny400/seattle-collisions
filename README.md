@@ -1,6 +1,6 @@
 # Visualizing Seattle Traffic Collisions 2022-2023
 
-Map Application Link: [Insert Link Here]
+[Map Application Link](https://noah-rarick.github.io/seattle-collisions/heatmap.html)
 
 Navigating the intricate web of Seattle's streets involves a delicate balance of vehicles, pedestrians, and infrastructure. Prioritizing safety in this dynamic environment requires a comprehensive understanding of car collision patterns. To address this need, we present an interactive map showcasing vehicle collisions across the greater Seattle area. The map features a thematic heat map illustrating the frequency of these collisions and offers information on the number of injuries resulting from each collision.  
 
